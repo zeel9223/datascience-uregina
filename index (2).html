@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Living Skies Data Science | University of Regina Computer Science</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--night:#0b1030;--dusk:#2b1a55;--coral:#ff6f59;--amber:#ffc15e;--wheat:#ecd28b;--mist:#c9cdea;--card:rgba(255,255,255,.07)}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',Arial,sans-serif;background:var(--night);color:#eef0ff;line-height:1.65}
+h1,h2,h3{font-family:'Fraunces',Georgia,serif;line-height:1.15}
+a{color:inherit}
+nav{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;justify-content:space-between;align-items:center;padding:14px 5vw;background:rgba(11,16,48,.75);backdrop-filter:blur(8px)}
+nav b{font-family:'Fraunces',Georgia,serif;color:var(--amber);font-size:1.1rem}
+nav div a{text-decoration:none;margin-left:18px;font-size:.9rem;color:var(--mist)}
+nav div a:hover{color:var(--coral)}
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:120px 6vw 160px;background:linear-gradient(180deg,var(--night) 0%,var(--dusk) 55%,#a2406b 80%,var(--coral) 100%);overflow:hidden}
+#sky{position:absolute;inset:0;width:100%;height:100%}
+.hero-in{position:relative;z-index:2;max-width:760px}
+.kicker{letter-spacing:.3em;font-size:.75rem;color:var(--amber);text-transform:uppercase;margin-bottom:18px}
+.hero h1{font-size:clamp(2.4rem,7vw,4.6rem);font-weight:800}
+.hero h1 span{color:var(--amber)}
+.hero p{margin:20px auto 30px;color:var(--mist);font-size:1.1rem;max-width:580px}
+.btn{display:inline-block;padding:14px 30px;border-radius:40px;background:var(--amber);color:#1a1033;font-weight:700;text-decoration:none;transition:.25s}
+.btn:hover{background:var(--coral);transform:translateY(-3px)}
+.btn.ghost{background:transparent;border:2px solid var(--amber);color:var(--amber);margin-left:10px}
+.btn.ghost:hover{background:var(--amber);color:#1a1033}
+.wheat{position:absolute;bottom:-2px;left:0;width:100%;height:140px;z-index:3}
+section{max-width:1040px;margin:auto;padding:80px 6vw}
+.label{color:var(--coral);letter-spacing:.25em;font-size:.75rem;text-transform:uppercase;margin-bottom:8px}
+h2{font-size:clamp(1.8rem,4vw,2.6rem);margin-bottom:14px}
+.lead{color:var(--mist);max-width:680px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:18px;margin-top:36px}
+.stat{background:var(--card);border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:26px;text-align:center}
+.stat b{display:block;font-family:'Fraunces',Georgia,serif;font-size:2.6rem;color:var(--amber)}
+.stat small{color:var(--mist)}
+.tabs{display:flex;gap:10px;margin:30px 0 18px;flex-wrap:wrap}
+.tab{cursor:pointer;border:2px solid var(--coral);background:transparent;color:#fff;padding:10px 22px;border-radius:30px;font:inherit;font-weight:700}
+.tab.on{background:var(--coral);color:#1a1033}
+.panel{display:none;background:var(--card);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:30px}
+.panel.on{display:block}
+.panel h3{font-size:1.7rem;color:var(--amber);margin-bottom:8px}
+.panel ul{margin:14px 0 0 20px;color:var(--mist)}
+.panel li{margin-bottom:6px}
+.path{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px;margin-top:40px}
+.star{background:var(--card);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:20px 14px;text-align:center;transition:.3s}
+.star:hover{transform:translateY(-6px);border-color:var(--amber)}
+.star i{display:flex;width:42px;height:42px;margin:0 auto 10px;border-radius:50%;background:var(--amber);color:#1a1033;font-style:normal;font-weight:800;align-items:center;justify-content:center;box-shadow:0 0 20px var(--amber)}
+.star h3{font-size:1rem;margin-bottom:4px}
+.star p{font-size:.85rem;color:var(--mist)}
+.cmp{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px;margin-top:30px}
+.cmp div{background:linear-gradient(160deg,rgba(255,111,89,.18),rgba(255,255,255,.05));border-radius:18px;padding:24px;border:1px solid rgba(255,255,255,.12)}
+.cmp h3{font-size:1.15rem;color:var(--amber)}
+.cmp em{display:block;color:var(--coral);font-style:normal;font-size:.8rem;margin:6px 0;text-transform:uppercase;letter-spacing:.1em}
+.cmp p{color:var(--mist);font-size:.92rem}
+.jobs{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
+.jobs span{padding:10px 20px;border-radius:30px;background:var(--card);border:1px solid var(--wheat);color:var(--wheat)}
+.cta{text-align:center;background:linear-gradient(135deg,var(--dusk),#a2406b);border-radius:28px;margin:0 6vw 70px;padding:60px 20px}
+.cta .btn{margin:8px 4px}
+footer{text-align:center;padding:30px 6vw 50px;color:var(--mist);font-size:.85rem}
+.rv{opacity:0;transform:translateY(30px);transition:.8s}
+.rv.show{opacity:1;transform:none}
+@media(max-width:640px){nav div{display:none}.btn.ghost{margin:10px 0 0}}
+</style>
+</head>
+<body>
+
+<nav>
+<b>&#10022; Living Skies Data Science</b>
+<div><a href="#about">About</a><a href="#programs">Programs</a><a href="#journey">Journey</a><a href="#why">Why Regina</a><a href="#careers">Careers</a></div>
+</nav>
+
+<div class="hero">
+<canvas id="sky"></canvas>
+<div class="hero-in">
+<div class="kicker">Department of Computer Science &middot; University of Regina</div>
+<h1>Find the <span>stars</span> hidden in your data</h1>
+<p>Under the Living Skies of Saskatchewan, learn to collect, clean, visualize and predict from data, and turn it into decisions that matter.</p>
+<a class="btn" href="#programs">Explore Programs</a><a class="btn ghost" href="#journey">See the Journey</a>
+</div>
+<svg class="wheat" viewBox="0 0 1200 140" preserveAspectRatio="none"><path fill="#0b1030" d="M0 140V80c40 10 60-30 100-20s50 30 90 20 60-40 110-30 60 30 100 20 70-40 120-30 50 30 100 25 70-35 120-25 60 25 100 20 80-40 130-30 50 20 90 20 60-30 90-20v110z"/><g stroke="#0b1030" stroke-width="3" fill="none"><path d="M60 140V70M130 140V60M210 140V75M290 140V55M380 140V70M470 140V58M560 140V72M650 140V56M740 140V70M830 140V60M920 140V74M1010 140V58M1100 140V68"/></g></svg>
+</div>
+
+<section id="about" class="rv">
+<div class="label">About</div>
+<h2>Where math, statistics and code meet</h2>
+<p class="lead">Data science turns large amounts of data into useful answers. At the University of Regina, the Department of Computer Science works together with Mathematics and Statistics to teach it.</p>
+<div class="stats">
+<div class="stat"><b>4</b><small>year Bachelor of Science</small></div>
+<div class="stat"><b>2</b><small>year course-based Master's</small></div>
+<div class="stat"><b>1982</b><small>CS accredited since (CSAC)</small></div>
+<div class="stat"><b>1st</b><small>only undergrad data science degree in Saskatchewan</small></div>
+</div>
+</section>
+
+<section id="programs" class="rv">
+<div class="label">Programs</div>
+<h2>Choose your path</h2>
+<div class="tabs"><button class="tab on" data-t="p1">BSc Data Science</button><button class="tab" data-t="p2">MSc CS (Data Science)</button></div>
+<div class="panel on" id="p1">
+<h3>Bachelor of Science in Data Science</h3>
+<p>A four-year degree offered together by Computer Science and Mathematics &amp; Statistics.</p>
+<ul><li>Analytics, machine learning, programming and artificial intelligence</li><li>Transfer students are welcome if they meet Faculty of Science admission rules</li><li>Scholarships open to Faculty of Science students</li><li>Active student societies for events and networking</li></ul>
+</div>
+<div class="panel" id="p2">
+<h3>Master of Science in Computer Science (Data Science)</h3>
+<p>A professional, two-year, course-based degree run by the Department of Computer Science.</p>
+<ul><li>30 credits of coursework, no thesis required</li><li>Data-focused programming and the data science lifecycle</li><li>Statistics and machine learning</li><li>Developed with support from SGI (Saskatchewan Government Insurance)</li></ul>
+</div>
+</section>
+
+<section id="journey" class="rv">
+<div class="label">The Journey</div>
+<h2>Six stars every data scientist follows</h2>
+<p class="lead">Every project moves along the same path. You practice each step in class.</p>
+<div class="path">
+<div class="star"><i>1</i><h3>Collect</h3><p>Gather data from files, databases and the web</p></div>
+<div class="star"><i>2</i><h3>Clean</h3><p>Fix missing values and mistakes</p></div>
+<div class="star"><i>3</i><h3>Analyze</h3><p>Find patterns with statistics</p></div>
+<div class="star"><i>4</i><h3>Visualize</h3><p>Show results as charts and dashboards</p></div>
+<div class="star"><i>5</i><h3>Predict</h3><p>Use machine learning to look ahead</p></div>
+<div class="star"><i>6</i><h3>Protect</h3><p>Keep data private, safe and fair</p></div>
+</div>
+</section>
+
+<section id="why" class="rv">
+<div class="label">Why Regina</div>
+<h2>Best ideas from around the world</h2>
+<p class="lead">We studied leading programs and built Regina's page around what works.</p>
+<div class="cmp">
+<div><h3>UBC</h3><em>Ethics first</em><p>Strong focus on ethical, transparent data use. Regina includes data ethics as part of the lifecycle.</p></div>
+<div><h3>UC Berkeley</h3><em>Open to everyone</em><p>Its first course needs no earlier experience. Regina welcomes transfers and new learners.</p></div>
+<div><h3>University of Toronto</h3><em>Joint and practical</em><p>Built by Computer Science and Statistics together. Regina is also a joint program.</p></div>
+</div>
+</section>
+
+<section id="careers" class="rv">
+<div class="label">Careers</div>
+<h2>Where graduates shine</h2>
+<div class="jobs"><span>Data Analyst</span><span>Data Scientist</span><span>Data Engineer</span><span>Research Scientist</span><span>Machine Learning Specialist</span></div>
+</section>
+
+<div class="cta rv">
+<h2>Ready to look up?</h2>
+<p class="lead" style="margin:0 auto 22px">See official admission details, courses and deadlines.</p>
+<a class="btn" href="https://www.uregina.ca/academics/programs/science/data-science.html">BSc Data Science</a>
+<a class="btn ghost" href="https://www.uregina.ca/academics/programs/science/master-phd-computer-science.html">MSc Computer Science</a>
+</div>
+
+<footer>Student assignment page, not an official University of Regina website. Created by <b>Zeel Kumar Himanshu Patel</b>. Official site: <a href="https://www.uregina.ca">uregina.ca</a></footer>
+
+<script>
+document.querySelectorAll('.tab').forEach(function(b){b.onclick=function(){
+document.querySelectorAll('.tab,.panel').forEach(function(e){e.classList.remove('on')});
+b.classList.add('on');document.getElementById(b.dataset.t).classList.add('on')}});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)e.target.classList.add('show')})},{threshold:.12});
+document.querySelectorAll('.rv').forEach(function(e){io.observe(e)});
+var c=document.getElementById('sky'),x=c.getContext('2d'),pts=[];
+function size(){c.width=c.offsetWidth;c.height=c.offsetHeight}
+size();window.onresize=size;
+for(var i=0;i<70;i++)pts.push({x:Math.random(),y:Math.random()*.8,vx:(Math.random()-.5)*.0004,vy:(Math.random()-.5)*.0004,r:Math.random()*1.8+.6});
+function draw(){x.clearRect(0,0,c.width,c.height);
+pts.forEach(function(p){p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>1)p.vx*=-1;if(p.y<0||p.y>.8)p.vy*=-1});
+for(var i=0;i<pts.length;i++){for(var j=i+1;j<pts.length;j++){
+var dx=(pts[i].x-pts[j].x)*c.width,dy=(pts[i].y-pts[j].y)*c.height,d=Math.sqrt(dx*dx+dy*dy);
+if(d<130){x.strokeStyle='rgba(255,193,94,'+(1-d/130)*.45+')';x.lineWidth=.8;x.beginPath();x.moveTo(pts[i].x*c.width,pts[i].y*c.height);x.lineTo(pts[j].x*c.width,pts[j].y*c.height);x.stroke()}}}
+pts.forEach(function(p){x.fillStyle='#ffe3a3';x.beginPath();x.arc(p.x*c.width,p.y*c.height,p.r,0,6.3);x.fill()});
+requestAnimationFrame(draw)}
+draw();
+</script>
+</body>
+</html>
